@@ -80,7 +80,7 @@ def main():
 
     for id, name in districts.items():
         print('processing ' + name)
-        write_file(name, get_adzans(id))
+        write_file(name, get_adzans(id, '11', '2019'))
 
 
 if __name__ == "__main__":
