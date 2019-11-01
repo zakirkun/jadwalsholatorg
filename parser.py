@@ -62,13 +62,23 @@ def get_adzans(district_id, month = '', year = '') :
 
 def write_file(district, adzans):
 
+    flb = fld = 'adzan/'+district+'/'
+
+    # monthly
+    dt = adzans[0]['tanggal'].replace('-', '/')
+    fld = flb+dt[:4]
+    if not os.path.exists(fld):
+        os.makedirs(fld, mode=0o777)
+    fl = open(fld+'/'+dt[5:7]+'.json', 'w+')
+    fl.write(json.dumps(adzans))
+    fl.close()
+
+    # daily
     for adzan in adzans:
         dt = adzan['tanggal'].replace('-', '/')
-
-        fld = 'adzan/'+district+'/'+dt[:8]
+        fld = flb+dt[:8]
         if not os.path.exists(fld):
             os.makedirs(fld, mode=0o777)
-
         fl = open(fld+dt[8::]+'.json', 'w+')
         fl.write(json.dumps(adzan))
         fl.close()
@@ -80,7 +90,7 @@ def main():
 
     for id, name in districts.items():
         print('processing ' + name)
-        write_file(name, get_adzans(id, '11', '2019'))
+        write_file(name, get_adzans(id, '12', '2019'))
 
 
 if __name__ == "__main__":
