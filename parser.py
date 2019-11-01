@@ -13,19 +13,19 @@ def strip_lower(str):
     return re.sub(r'\W+', '', str).lower()
 
 
-def get_districts() :
+def get_cities() :
 
     first_page = requests.get(base_url)
     first_page_doc = html.fromstring(first_page.content)
 
-    district_ids = first_page_doc.xpath('//select[@name="kota"]/option/@value')
-    district_names = first_page_doc.xpath('//select[@name="kota"]/option/text()')
-    district_names = [strip_lower(d) for d in district_names]
+    city_ids = first_page_doc.xpath('//select[@name="kota"]/option/@value')
+    city_names = first_page_doc.xpath('//select[@name="kota"]/option/text()')
+    city_names = [strip_lower(d) for d in city_names]
 
-    return dict(zip(district_ids, district_names))
+    return dict(zip(city_ids, city_names))
 
 
-def get_adzans(district_id, month = '', year = '') :
+def get_adzans(city_id, month = '', year = '') :
 
     if  month == '' :
         month = datetime.now().month
@@ -33,7 +33,7 @@ def get_adzans(district_id, month = '', year = '') :
     if  year == '' :
         year = datetime.now().year
 
-    url = base_url + '?id={}&m={}&y={}'.format(district_id, month, year)
+    url = base_url + '?id={}&m={}&y={}'.format(city_id, month, year)
 
     page = requests.get(url)
 
@@ -60,9 +60,9 @@ def get_adzans(district_id, month = '', year = '') :
     return result
 
 
-def write_file(district, adzans):
+def write_file(city, adzans):
 
-    flb = fld = 'adzan/'+district+'/'
+    flb = fld = 'adzan/'+city+'/'
 
     # monthly
     dt = adzans[0]['tanggal'].replace('-', '/')
@@ -86,11 +86,11 @@ def write_file(district, adzans):
 
 def main():
 
-    districts = get_districts()
+    cities = get_cities()
 
-    for id, name in districts.items():
+    for id, name in cities.items():
         print('processing ' + name)
-        write_file(name, get_adzans(id, '12', '2019'))
+        write_file(name, get_adzans(id, '11', '2019'))
 
 
 if __name__ == "__main__":
