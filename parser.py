@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import re
 import json
@@ -90,7 +92,7 @@ def main():
 
     for id, name in cities.items():
         print('processing ' + name)
-        write_file(name, get_adzans(id, '11', '2019'))
+        write_file(name, get_adzans(id, '01', '2020'))
 
 
 if __name__ == "__main__":
