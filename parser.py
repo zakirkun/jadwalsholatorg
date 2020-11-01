@@ -92,7 +92,7 @@ def main():
 
     for id, name in cities.items():
         print('processing ' + name)
-        write_file(name, get_adzans(id, '10', '2020'))
+        write_file(name, get_adzans(id, '11', '2020'))
 
 
 if __name__ == "__main__":
